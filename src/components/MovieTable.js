@@ -8,12 +8,15 @@ function MovieTable() {
 
 
     function fetchData() {
-        fetch('http://localhost:8080/movies')
+        fetch('http://localhost:8080/api/movies')
             .then(response => response.json())
             .then(responseData => {
                 setListItems(responseData);
             })
     }
+
+
+
 
     React.useEffect(() => {
         fetchData();
@@ -28,7 +31,7 @@ function MovieTable() {
         accessor: 'year',
     }, {
         Header: 'Rating',
-        accessor: 'rating',
+        accessor: 'avarageRating',
     }];
 
     const defaultSorted = [{
