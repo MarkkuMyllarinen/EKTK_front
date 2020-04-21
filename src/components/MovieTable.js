@@ -8,7 +8,6 @@ import Alert from '@material-ui/lab/Alert';
 function MovieTable() {
 
     const [listItems, setListItems] = React.useState([]);
-    //const [rating, setRating] = React.useState([{value: 0}]);
     const [rowState, setRow] = React.useState();
     const [open, setOpen] = React.useState(false);
     React.createRef();
