@@ -1,7 +1,6 @@
 import React from 'react';
 import 'react-table-v6/react-table.css';
 import ReactTable from "react-table-v6";
-import StarRating from "./StarRating";
 import Rating from "@material-ui/lab/Rating";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
