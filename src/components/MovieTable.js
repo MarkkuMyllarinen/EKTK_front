@@ -3,19 +3,28 @@ import 'react-table-v6/react-table.css';
 import ReactTable from "react-table-v6";
 import StarRating from "./StarRating";
 import Rating from "@material-ui/lab/Rating";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 function MovieTable() {
 
     const [listItems, setListItems] = React.useState([]);
     //const [rating, setRating] = React.useState([{value: 0}]);
-    const [status, setStatus] = React.useState(false);
     const [rowState, setRow] = React.useState();
-
+    const [open, setOpen] = React.useState(false);
+    React.createRef();
     let rating = [{value: 0}];
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     function fetchData() {
-        fetch('http://localhost:8080/api/movies')
+        fetch('https://ektk.herokuapp.com/api/movies')
             .then(response => response.json())
             .then(responseData => {
                 setListItems(responseData);
@@ -24,7 +33,7 @@ function MovieTable() {
 
     const updateRating = () => {
 
-        fetch('http://localhost:8080/api/addrating/movieid=' + rowState, {
+        fetch('https://ektk.herokuapp.com/api/addrating/movieid=' + rowState, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -37,19 +46,15 @@ function MovieTable() {
 
 
     const onStarChange = (nextValue) => {
-        // props.rating([{value: nextValue}])
-        //props.setStatus(true)
         console.log(nextValue)
         rating = ([{value: nextValue}])
         console.log(JSON.stringify(rating))
         updateRating();
+        setOpen(true);
     }
     const onStarClick = (row) => {
-        // props.rating([{value: nextValue}])
-        //props.setStatus(true)
         console.log(row.original.id)
         setRow(row.original.id)
-
     }
 
     React.useEffect(() => {
@@ -90,6 +95,11 @@ function MovieTable() {
                         columns={columns} sortable={true}
                         defaultPageSize={20}
                         defaultSorted={defaultSorted}/>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    Arvostelusi on rekisteröity!
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
